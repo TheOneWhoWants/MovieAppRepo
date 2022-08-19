@@ -16,6 +16,8 @@ class MovieListTBC: UITableViewCell {
     @IBOutlet weak var genreLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -27,30 +29,44 @@ class MovieListTBC: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setData(data: Movie) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.titleMovieImage.image = nil
+    }
+    
+    func setData(data: MovieCell) {
         self.titleMovieImageView.layer.cornerRadius = 15
         self.descriptionView.layer.cornerRadius = 15
-        self.movieTitle.text = data.title?.description
-        self.genreLabel.text = data.genre?[0].name?.description
+        self.movieTitle.text = data.title
+        print("GENRE+++ \(String(describing: data.genre))")
+        self.dateLabel.text = "Release date: \(data.date.description)"
+        self.titleMovieImage = data.titleImageLink.downloaded(from: <#T##URL#>)
 
-        if let genre = data.genre {
-            self.genreLabel.text = "Genre: \(genre.description)"
-        } else {
-            self.genreLabel.text = "Genre: unknown"
-        }
-        
-        if let releaseDate = data.release_date {
-            self.dateLabel.text = "Release date: \(releaseDate.description)"
-        } else {
-            self.dateLabel.text = "Release date: UNKNOWN"
-        }
-        
-        if let titleImage = data.poster_path {
-            self.titleMovieImage.downloaded(from: "https://image.tmdb.org/t/p/original\(titleImage)")
-        } else {
-            self.titleMovieImage.image = UIImage(systemName: "slash.circle")
-//            rectangle.fill.on.rectangle.fill.slash.fill
-        }
     }
-
+    
+//    func setData(data: Movie) {
+//        self.titleMovieImageView.layer.cornerRadius = 15
+//        self.descriptionView.layer.cornerRadius = 15
+//        self.movieTitle.text = data.title?.description
+//
+//        print("GENRE+++ \(String(describing: data.genre_ids))")
+//
+//        if let releaseDate = data.release_date {
+//            self.dateLabel.text = "Release date: \(releaseDate.description)"
+//        } else {
+//            self.dateLabel.text = "Release date: UNKNOWN"
+//        }
+//
+//        if let titleImage = data.poster_path {
+//
+//            DispatchQueue.main.async { [weak self] in
+//                let urlString = "https://image.tmdb.org/t/p/original\(titleImage)"
+//                self?.titleMovieImage.downloaded(from: urlString)
+//
+//            }
+//            print("URL + \(titleImage)")
+//        } else {
+//            self.titleMovieImage.image = UIImage(systemName: "slash.circle")
+//        }
+//    }
 }
